@@ -168,6 +168,7 @@ func getResources() map[string]*schema.Resource {
 		"snowflake_role_grants":               resources.RoleGrants(),
 		"snowflake_schema":                    resources.Schema(),
 		"snowflake_scim_integration":          resources.SCIMIntegration(),
+		"snowflake_sequence":                  resources.Sequence(),
 		"snowflake_share":                     resources.Share(),
 		"snowflake_stage":                     resources.Stage(),
 		"snowflake_storage_integration":       resources.StorageIntegration(),
