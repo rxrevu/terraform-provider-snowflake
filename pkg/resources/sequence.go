@@ -16,6 +16,7 @@ var sequenceSchema = map[string]*schema.Schema{
 		Type:        schema.TypeString,
 		Required:    true,
 		Description: "Specifies the name for the sequence.",
+		ForceNew:    true,
 	},
 	"comment": {
 		Type:        schema.TypeString,
@@ -33,11 +34,13 @@ var sequenceSchema = map[string]*schema.Schema{
 		Type:        schema.TypeString,
 		Required:    true,
 		Description: "The database in which to create the sequence. Don't use the | character.",
+		ForceNew:    true,
 	},
 	"schema": {
 		Type:        schema.TypeString,
 		Required:    true,
 		Description: "The schema in which to create the sequence. Don't use the | character.",
+		ForceNew:    true,
 	},
 	"next_value": {
 		Type:        schema.TypeInt,
@@ -146,22 +149,12 @@ func ReadSequence(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	err = d.Set("next_value", i)
-	if err != nil {
-		return err
-	}
-
 	err = d.Set("fully_qualified_name", seq.Address())
 	if err != nil {
 		return err
 	}
 
-	d.SetId(fmt.Sprintf(`%v|%v|%v`, sequence.DBName.String, sequence.SchemaName.String, sequence.Name.String))
-	if err != nil {
-		return err
-	}
-
-	return err
+	return nil
 }
 
 func UpdateSequence(d *schema.ResourceData, meta interface{}) error {
@@ -183,7 +176,12 @@ func UpdateSequence(d *schema.ResourceData, meta interface{}) error {
 		sq.WithComment(v.(string))
 	}
 
-	sq.WithStart(next)
+	nextValue, err := strconv.Atoi(sequence.NextValue.String)
+	if err != nil {
+		return err
+	}
+
+	sq.WithStart(nextValue)
 
 	err := snowflake.Exec(db, sq.Create())
 	if err != nil {
