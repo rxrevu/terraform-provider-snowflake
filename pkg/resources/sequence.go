@@ -46,11 +46,6 @@ var sequenceSchema = map[string]*schema.Schema{
 		Required:    true,
 		Description: "The schema in which to create the sequence. Don't use the | character.",
 	},
-	"next_value": {
-		Type:        schema.TypeInt,
-		Description: "The next value the sequence will provide.",
-		Computed:    true,
-	},
 	"fully_qualified_name": {
 		Type:        schema.TypeString,
 		Description: "The fully qualified name of the sequence.",
@@ -196,11 +191,6 @@ func ReadSequence(d *schema.ResourceData, meta interface{}) error {
 		return err
 	}
 
-	err = d.Set("next_value", i)
-	if err != nil {
-		return err
-	}
-
 	err = d.Set("fully_qualified_name", seq.Address())
 	if err != nil {
 		return err
@@ -241,11 +231,6 @@ func UpdateSequence(d *schema.ResourceData, meta interface{}) error {
 	}
 
 	nextValue, err := strconv.Atoi(sequence.NextValue.String)
-	if err != nil {
-		return err
-	}
-
-	err = d.Set("next_value", nextValue)
 	if err != nil {
 		return err
 	}
