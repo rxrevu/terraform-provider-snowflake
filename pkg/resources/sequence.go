@@ -23,33 +23,39 @@ var sequenceSchema = map[string]*schema.Schema{
 		Type:        schema.TypeString,
 		Required:    true,
 		Description: "Specifies the name for the sequence.",
+    ForceNew:    true,
 	},
 	"comment": {
 		Type:        schema.TypeString,
 		Optional:    true,
 		Default:     "",
 		Description: "Specifies a comment for the sequence.",
+    ForceNew:    true,
 	},
 	"increment": {
 		Type:        schema.TypeInt,
 		Optional:    true,
 		Default:     1,
 		Description: "The amount the sequence will increase by each time it is used",
+    ForceNew:    true,
 	},
 	"database": {
 		Type:        schema.TypeString,
 		Required:    true,
 		Description: "The database in which to create the sequence. Don't use the | character.",
+    ForceNew:    true,
 	},
 	"schema": {
 		Type:        schema.TypeString,
 		Required:    true,
 		Description: "The schema in which to create the sequence. Don't use the | character.",
+    ForceNew:    true,
 	},
 	"fully_qualified_name": {
 		Type:        schema.TypeString,
 		Description: "The fully qualified name of the sequence.",
 		Computed:    true,
+    ForceNew:    true,
 	},
 }
 
